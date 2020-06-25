@@ -1,13 +1,14 @@
 <?php
-function pipline(...$args)
+function pipeline(...$args)
 {
     $mid = array_shift($args);
-    if($mid){
-        return function(...$prop) use ($mid,$args) {
-            return $mid(pipline(...$args),$prop);
+    if ($mid) {
+        return function (...$prop) use ($mid, $args) {
+            return $mid(pipeline(...$args), $prop);
         };
-    }else{
-        return function(){};
+    } else {
+        return function () {
+        };
     }
 }
 
@@ -19,5 +20,5 @@ $mid = function ($callable, $prop){
     return 'm'.$prop[0]. $callable(...$prop);
 };
 
-$pipe = pipline($mid,$mid,$f);
+$pipe = pipeline($mid, $mid, $f);
 echo $pipe('_');

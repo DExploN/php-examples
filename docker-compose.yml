@@ -1,8 +1,0 @@
-version: "3"
-services:
-  php:
-    build: ./.
-    container_name: php_cli
-    volumes:
-    - ./.:/code
-    working_dir: /code
