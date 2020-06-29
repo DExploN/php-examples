@@ -15,3 +15,10 @@ services:
   redis:
     image: redis:6.0.5
     container_name: redis_cli
+
+  rabbitmq:
+    image: rabbitmq:3.8.5-management
+    container_name: rabbitmq_cli
+    ports:
+      - 5672:5672
+      - 15672:15672

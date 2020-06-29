@@ -1,7 +1,7 @@
 FROM php:7.4-fpm
 
 RUN apt-get update && apt-get install -y \
-        zip unzip
+        zip unzip bash-completion
 
 RUN pecl install xdebug && docker-php-ext-enable xdebug && \
     echo "xdebug.remote_enable = 1 \n\
