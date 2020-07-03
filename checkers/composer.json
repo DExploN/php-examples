@@ -1,0 +1,11 @@
+{
+  "name": "dexplon/checkers",
+  "description": "cli checkers game",
+  "type": "project",
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "src\\": "src/"
+    }
+  }
+}
