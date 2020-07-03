@@ -6,7 +6,7 @@ namespace src\GameRules;
 
 use src\Game;
 
-class CreateKingRule implements GameRule
+class CreateQueenRule implements GameRule
 {
 
     public function execute(Game $game, array $coords, GameRule $nextGameRule)
@@ -19,16 +19,16 @@ class CreateKingRule implements GameRule
         if ($game->getCurrentPlayer() === Game::PLAYER_ONE && $currentFigure->getY() === 0) {
             $table->removeFigure($coords['x2'], $coords['y2']);
             $table->addFigure(
-                $currentFigure = $table->getFigureFactory()->createKing(Game::PLAYER_ONE),
+                $currentFigure = $table->getFigureFactory()->createQueen(Game::PLAYER_ONE),
                 $coords['x2'],
                 $coords['y2']
             );
         }
 
-        if ($game->getCurrentPlayer() === Game::PLAYER_TWO && $currentFigure->getY() === $table->getYMax()) {
+        if ($game->getCurrentPlayer() === Game::PLAYER_TWO && $currentFigure->getY() === ($table->getYMax() - 1)) {
             $table->removeFigure($coords['x2'], $coords['y2']);
             $table->addFigure(
-                $currentFigure = $table->getFigureFactory()->createKing(Game::PLAYER_TWO),
+                $currentFigure = $table->getFigureFactory()->createQueen(Game::PLAYER_TWO),
                 $coords['x2'],
                 $coords['y2']
             );

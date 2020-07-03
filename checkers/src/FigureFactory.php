@@ -29,7 +29,7 @@ class FigureFactory
         return $checker;
     }
 
-    public function createKing(string $player): Figure
+    public function createQueen(string $player): Figure
     {
         $code = $player === Game::PLAYER_TWO ? "♔" : "♚";
         $checker = new Figure($code, $player);

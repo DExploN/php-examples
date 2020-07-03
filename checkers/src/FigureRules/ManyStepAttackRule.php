@@ -34,13 +34,45 @@ class ManyStepAttackRule implements FigureRule
         return [];
     }
 
-
     public function findAttackTurns(Table $table, $x1, $y1): array
+    {
+        $res = $this->findAttackTurnsOneLevel($table, $x1, $y1);
+        $enemy = $res['enemy'];
+        $turns = $res['turns'];
+
+        $filteredTurns = [];
+
+        if ($turns) {
+            $currentFigure = $table->getFigure($x1, $y1);
+            $enemy = $table->getFigure($enemy->getX(), $enemy->getY());
+
+            $cloneCurrent = clone $currentFigure;
+            $cloneEnemy = clone $enemy;
+
+            $table->removeFigure($currentFigure->getX(), $currentFigure->getY());
+            $table->removeFigure($enemy->getX(), $enemy->getY());
+
+            foreach ($turns as $coords) {
+                $table->addFigure($currentFigure, $coords['x2'], $coords['y2']);
+                if ($currentFigure->findAttackTurns()) {
+                    $filteredTurns[] = $coords;
+                }
+                $table->removeFigure($coords['x2'], $coords['y2']);
+            }
+
+            $table->addFigure($currentFigure, $cloneCurrent->getX(), $cloneCurrent->getY());
+            $table->addFigure($enemy, $cloneEnemy->getX(), $cloneEnemy->getY());
+            unset($cloneCurrent, $cloneEnemy);
+        }
+        return count($filteredTurns) ? $filteredTurns : $turns;
+    }
+
+    public function findAttackTurnsOneLevel(Table $table, $x1, $y1): array
     {
         $figure = $table->getFigure($x1, $y1);
 
 
-        $result = [];
+        $result = ['turns' => [], 'enemy' => null];
         $i = 0;
         while (true) {
             $i++;
@@ -59,7 +91,7 @@ class ManyStepAttackRule implements FigureRule
             if (!$enemy) {
                 break;
             }
-
+            $result['enemy'] = $target;
             while (true) {
                 $i++;
                 $x = $x1 + $this->x * $i;
@@ -73,7 +105,7 @@ class ManyStepAttackRule implements FigureRule
                     break 2;
                 }
 
-                $result[] = ['x1' => $x1, 'y1' => $y1, 'x2' => $x, 'y2' => $y];
+                $result['turns'][] = ['x1' => $x1, 'y1' => $y1, 'x2' => $x, 'y2' => $y];
             }
         }
 
@@ -84,4 +116,6 @@ class ManyStepAttackRule implements FigureRule
     {
         return true;
     }
+
+
 }
