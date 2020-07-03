@@ -43,7 +43,7 @@ class OneStepRule implements FigureRule
         return [];
     }
 
-    public function isAttackRule(): bool
+    public function isAttack(): bool
     {
         return false;
     }

@@ -37,7 +37,7 @@ class OneStepAttackRule implements FigureRule
         $figure = $table->getFigure($x1, $y1);
 
         $target = $table->findFigure($x1 + $this->x, $y1 + $this->y);
-        $enemy = $target && $target->getTeam() !== $figure->getTeam();
+        $enemy = $target && $target->getPlayer() !== $figure->getPlayer();
         $canAttack = !$table->findFigure($x1 + $this->x * 2, $y1 + $this->y * 2) && $table->verifyCoordinate(
                 $x1 + $this->x * 2,
                 $y1 + $this->y * 2
@@ -49,7 +49,7 @@ class OneStepAttackRule implements FigureRule
         return [];
     }
 
-    public function isAttackRule(): bool
+    public function isAttack(): bool
     {
         return true;
     }

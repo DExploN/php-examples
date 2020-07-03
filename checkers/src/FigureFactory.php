@@ -11,16 +11,16 @@ use src\FigureRules\OneStepRule;
 
 class FigureFactory
 {
-    public function createChecker(bool $team): Figure
+    public function createChecker(string $player): Figure
     {
-        $code = $team ? "♙" : "♟";
-        $checker = new Figure($code, $team);
-        if ($team) {
-            $checker->addRule(new OneStepRule(-1, 1));
-            $checker->addRule(new OneStepRule(1, 1));
-        } else {
-            $checker->addRule(new OneStepRule(1, -1));
+        $code = $player === Game::PLAYER_TWO ? "♙" : "♟";
+        $checker = new Figure($code, $player);
+        if ($player === Game::PLAYER_ONE) {
             $checker->addRule(new OneStepRule(-1, -1));
+            $checker->addRule(new OneStepRule(1, -1));
+        } else {
+            $checker->addRule(new OneStepRule(1, 1));
+            $checker->addRule(new OneStepRule(-1, 1));
         }
         $checker->addRule(new OneStepAttackRule(-1, 1));
         $checker->addRule(new OneStepAttackRule(1, 1));
@@ -29,10 +29,10 @@ class FigureFactory
         return $checker;
     }
 
-    public function createKing(bool $team): Figure
+    public function createKing(string $player): Figure
     {
-        $code = $team ? "♔" : "♚";
-        $checker = new Figure($code, $team);
+        $code = $player === Game::PLAYER_TWO ? "♔" : "♚";
+        $checker = new Figure($code, $player);
         $checker->addRule(new ManyStepRule(-1, 1));
         $checker->addRule(new ManyStepRule(1, 1));
         $checker->addRule(new ManyStepRule(1, -1));

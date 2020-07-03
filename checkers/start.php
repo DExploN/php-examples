@@ -2,6 +2,13 @@
 
 use src\Figure;
 use src\Game;
+use src\GameRules\ChangePlayer;
+use src\GameRules\CheckCurrentFigure;
+use src\GameRules\CreateKingRule;
+use src\GameRules\EndGameRule;
+use src\GameRules\GetCoordinatesRules;
+use src\GameRules\MoveFigure;
+use src\GameRules\NeedAttackRule;
 use src\Table;
 use src\TablePrinter;
 
@@ -26,10 +33,19 @@ $game = new Game($table);
 //    }
 //}
 
-$table->addFigure($table->getFigureFactory()->createChecker(true), 7, 0);
+$table->addFigure($table->getFigureFactory()->createChecker(Game::PLAYER_TWO), 4, 1);
+$table->addFigure($table->getFigureFactory()->createChecker(Game::PLAYER_TWO), 4, 3);
 
-$table->addFigure($table->getFigureFactory()->createChecker(false), 4, 1);
+$table->addFigure($table->getFigureFactory()->createKing(Game::PLAYER_ONE), 2, 5);
 
+
+$game->addRule(new EndGameRule());
+$game->addRule(new GetCoordinatesRules());
+$game->addRule(new CheckCurrentFigure());
+$game->addRule(new ChangePlayer());
+$game->addRule(new CreateKingRule());
+$game->addRule(new NeedAttackRule());
+$game->addRule(new MoveFigure());
 
 $game->run();
 

@@ -34,6 +34,7 @@ class ManyStepAttackRule implements FigureRule
         return [];
     }
 
+
     public function findAttackTurns(Table $table, $x1, $y1): array
     {
         $figure = $table->getFigure($x1, $y1);
@@ -54,7 +55,7 @@ class ManyStepAttackRule implements FigureRule
             if (!$target) {
                 continue;
             }
-            $enemy = $target && $target->getTeam() !== $figure->getTeam();
+            $enemy = $target && $target->getPlayer() !== $figure->getPlayer();
             if (!$enemy) {
                 break;
             }
@@ -79,7 +80,7 @@ class ManyStepAttackRule implements FigureRule
         return $result;
     }
 
-    public function isAttackRule(): bool
+    public function isAttack(): bool
     {
         return true;
     }

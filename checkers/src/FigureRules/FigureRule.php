@@ -14,5 +14,5 @@ interface FigureRule
 
     public function findAttackTurns(Table $table, $x1, $y1): array;
 
-    public function isAttackRule(): bool;
+    public function isAttack(): bool;
 }

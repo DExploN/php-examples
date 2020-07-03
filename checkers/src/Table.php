@@ -4,6 +4,7 @@
 namespace src;
 
 
+use src\Exceptions\CheckersBaseException;
 use src\Exceptions\FigureNotFoundException;
 
 class Table
@@ -69,7 +70,7 @@ class Table
         if ($figure = $this->findFigure($x, $y)) {
             return $figure;
         }
-        throw new FigureNotFoundException("Фигура не найдена");
+        throw new CheckersBaseException("Фигура не найдена");
     }
 
     public function removeFigure($x, $y)

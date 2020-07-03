@@ -4,7 +4,7 @@
 namespace src;
 
 
-use src\Exceptions\StepErrorException;
+use src\Exceptions\CheckersBaseException;
 use src\FigureRules\FigureRule;
 
 class Figure
@@ -17,14 +17,14 @@ class Figure
     /** @var int|null */
     private $y;
     /** @var Table|null */
-    private $table;
-    private bool $team;
+    private ?Table $table;
+    private string $player;
 
 
-    public function __construct($unicodeSymbol, bool $team)
+    public function __construct($unicodeSymbol, string $player)
     {
         $this->unicodeSymbol = $unicodeSymbol;
-        $this->team = $team;
+        $this->player = $player;
     }
 
     /**
@@ -56,7 +56,7 @@ class Figure
                 return $rule;
             }
         }
-        throw new StepErrorException("Фигура не может сделать такой ход");
+        throw new CheckersBaseException("Фигура не может сделать такой ход");
     }
 
     /**
@@ -107,12 +107,10 @@ class Figure
         $this->table = $table;
     }
 
-    /**
-     * @return bool
-     */
-    public function getTeam(): bool
+
+    public function getPlayer()
     {
-        return $this->team;
+        return $this->player;
     }
 
     public function findAttackTurns()
