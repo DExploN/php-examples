@@ -13,7 +13,7 @@ class FigureFactory
 {
     public function createChecker(string $player): Figure
     {
-        $code = $player === Game::PLAYER_TWO ? "♙" : "♟";
+        $code = $player === Game::PLAYER_TWO ? "◎" : "◉";
         $checker = new Figure($code, $player);
         if ($player === Game::PLAYER_ONE) {
             $checker->addRule(new OneStepRule(-1, -1));
