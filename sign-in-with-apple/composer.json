@@ -1,0 +1,8 @@
+{
+    "require": {
+        "kissdigital-com/apple-sign-in-client-secret-generator": "dev-master",
+        "guzzlehttp/guzzle": "^7.0",
+        "firebase/php-jwt": "^5.2",
+        "lcobucci/jwt": "^3.3"
+    }
+}
