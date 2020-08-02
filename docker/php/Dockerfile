@@ -1,8 +1,9 @@
 FROM php:7.4-fpm
 
 RUN apt-get update && apt-get install -y \
-        zip unzip bash-completion \
-        && docker-php-ext-install sockets
+        zip unzip bash-completion libgmp-dev \
+        && docker-php-ext-install sockets \
+        && docker-php-ext-install gmp
 
 RUN pecl install xdebug && docker-php-ext-enable xdebug && \
     echo "xdebug.remote_enable = 1 \n\

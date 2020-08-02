@@ -11,12 +11,16 @@ services:
       - ./..:/code
     working_dir: /code
     user: ${USER_NAME}
+    networks:
+      example_net:
 
   redis:
     image: redis:6.0.5
     container_name: redis_cli
     volumes:
       - "./redis/volumes:/data"
+    networks:
+      example_net:
 
   rabbitmq:
     image: rabbitmq:3.8.5-management
@@ -24,3 +28,32 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    networks:
+      example_net:
+
+  elasticsearch:
+    image: elasticsearch:7.8.0
+    container_name: elasticsearch_cli
+    environment:
+      - "discovery.type=single-node"
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      example_net:
+
+  kibana:
+    image: kibana:7.8.0
+    container_name: kibana_cli
+    ports:
+      - 5601:5601
+    networks:
+      example_net:
+networks:
+  example_net:
+#    external:
+#      name: wh_network
+#    ipam:
+#      driver: default
+#      config:
+#        - subnet: "172.30.0.0/16"
