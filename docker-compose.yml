@@ -2,23 +2,25 @@ version: "3.5"
 services:
   php:
     build:
-      context: ./php
+      context: ./docker/php
       args:
         - UID
         - USER_NAME
     container_name: php_cli
     volumes:
-      - ./..:/code
+      - ./code:/code
     working_dir: /code
     user: ${USER_NAME}
+    environment:
+      PHP_IDE_CONFIG: "serverName=php_example"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       example_net:
 
   redis:
     image: redis:6.0.5
     container_name: redis_cli
-    volumes:
-      - "./redis/volumes:/data"
     networks:
       example_net:
 
