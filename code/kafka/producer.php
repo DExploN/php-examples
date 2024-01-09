@@ -5,7 +5,7 @@ declare(strict_types=1);
 $conf = new \RdKafka\Conf();
 $conf->set('bootstrap.servers', 'kafka:9092');
 $conf->set('socket.timeout.ms', (string)50);
-$conf->set('queue.buffering.max.messages', (string)3);
+$conf->set('queue.buffering.max.messages', (string)20);
 $conf->set('max.in.flight.requests.per.connection', (string)1);
 
 $conf->set('log_level', (string)LOG_DEBUG);
@@ -23,15 +23,17 @@ $topicConf->set('request.timeout.ms', (string)5000);
 $producer = new \RdKafka\Producer($conf);
 
 
-$topic = $producer->newTopic('playground2', $topicConf);
+$topic = $producer->newTopic('partTopic', $topicConf);
 
-$i = 1;
-$key = $i % 10;
-$payload = sprintf('payload-%d-%s', $i, $key);
+$partition = RD_KAFKA_PARTITION_UA;
+foreach (range(1,100) as $i){
+    $payload = sprintf('payload-%d-%s', $partition,$i);
+    $topic->produce($partition, 0, $payload);
+    // trigger callback queues
+    $producer->poll(100);
+}
 
-$topic->produce(RD_KAFKA_PARTITION_UA, 0, $payload);
 
-// trigger callback queues
-$producer->poll(1);
 
-$producer->flush(1000);
+
+$producer->flush(-1);
