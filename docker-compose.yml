@@ -26,7 +26,7 @@ services:
 
   rabbitmq:
     image: rabbitmq:3.8.5-management
-    container_name: rabbitmq_cli
+    container_name: ${COMPOSE_PROJECT_NAME}_rabbitmq
     ports:
       - 5672:5672
       - 15672:15672
@@ -34,10 +34,11 @@ services:
       internal:
 
   elasticsearch:
-    image: elasticsearch:7.8.0
+    image: elasticsearch:7.17.5
     container_name: ${COMPOSE_PROJECT_NAME}_elasticsearch
     environment:
-      - "discovery.type=single-node"
+      ES_JAVA_OPTS: "-Xmx512m -Xms256m"
+      discovery.type: single-node
     ports:
       - 9200:9200
       - 9300:9300
@@ -45,7 +46,7 @@ services:
       internal:
 
   kibana:
-    image: kibana:7.8.0
+    image: kibana:7.17.5
     container_name: ${COMPOSE_PROJECT_NAME}_kibana
     ports:
       - 5601:5601
@@ -66,7 +67,7 @@ services:
       - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
   kafka-ui:
-    container_name: kafka-ui
+    container_name: ${COMPOSE_PROJECT_NAME}_kafka-ui
     image: provectuslabs/kafka-ui:latest
     ports:
       - "8080:8080"
