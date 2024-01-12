@@ -28,7 +28,7 @@ $topic = $producer->newTopic('partTopic', $topicConf);
 $partition = RD_KAFKA_PARTITION_UA;
 foreach (range(1,100) as $i){
     $payload = sprintf('payload-%d-%s', $partition,$i);
-    $topic->produce($partition, 0, $payload);
+    $topic->producev($partition, 0, $payload, null, null,time()*1000 + 1000*120 );
     // trigger callback queues
     $producer->poll(100);
 }
