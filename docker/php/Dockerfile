@@ -8,9 +8,6 @@ RUN apt-get update && apt-get install -y \
 RUN pecl install -f xdebug-3.1.3 \
         && docker-php-ext-enable xdebug
 
-RUN apt-get install -y librdkafka-dev \
-        && pecl install -f rdkafka-6.0.3 \
-        && docker-php-ext-enable rdkafka
 
 COPY ./ini_dir $PHP_INI_DIR
 
