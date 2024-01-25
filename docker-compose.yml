@@ -19,7 +19,7 @@ services:
       internal:
 
   clickhouse-server:
-    image: yandex/clickhouse-server
+    image: clickhouse/clickhouse-server
     container_name: ${COMPOSE_PROJECT_NAME}_clickhouse_server
     ports:
       - "8123:8123"
@@ -30,6 +30,10 @@ services:
         hard: 262144
     volumes:
       - ./docker/clickhouse/volumes:/var/lib/clickhouse
+    environment:
+      CLICKHOUSE_DB: "test_database"
+      CLICKHOUSE_USER: "user"
+      CLICKHOUSE_PASSWORD: "secret"
     networks:
       internal:
 
